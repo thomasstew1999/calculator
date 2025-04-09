@@ -14,7 +14,12 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
-    return a / b;
+    if (b != 0) {
+        return a / b;
+    } else {
+        return "ERROR";
+    }
+    
 }
 
 function operator(a, operator, b) {
@@ -41,8 +46,14 @@ container.addEventListener('click', (event) => {
     let target = event.target;
     switch (target.id) {
         case "digit":
-            screen.textContent += target.textContent;
-            newNumber = Number(screen.textContent);
+            if (newNumber == 0 || newNumber == "ERROR") {
+                screen.textContent = target.textContent;
+                newNumber = Number(target.textContent);
+            } else {
+                screen.textContent += target.textContent;
+                newNumber = Number(screen.textContent);
+            }
+            
             console.log("digit");
             break;
         case "clear":
@@ -51,6 +62,7 @@ container.addEventListener('click', (event) => {
             if (screen.textContent == "") {
                 newNumber = 0;
             }
+            currOperator = "";
             break;
         case "decimal":
             if (!screen.textContent.includes(".")) {
@@ -61,25 +73,37 @@ container.addEventListener('click', (event) => {
             oldNumber = newNumber;
             currOperator = "+";
             console.log("oldnumber: " + oldNumber);
-            document.getElementById('clear').click();
+            screen.textContent = "";
+            if (screen.textContent == "") {
+                newNumber = 0;
+            }
             break;
         case "subtract":
             oldNumber = newNumber;
             currOperator = "-";
             console.log("oldnumber: " + oldNumber);
-            document.getElementById('clear').click();
+            screen.textContent = "";
+            if (screen.textContent == "") {
+                newNumber = 0;
+            }
             break;
         case "multiply":
             oldNumber = newNumber;
             currOperator = "x";
             console.log("oldnumber: " + oldNumber);
-            document.getElementById('clear').click();
+            screen.textContent = "";
+            if (screen.textContent == "") {
+                newNumber = 0;
+            }
             break;
         case "divide":
             oldNumber = newNumber;
             currOperator = "/";
             console.log("oldnumber: " + oldNumber);
-            document.getElementById('clear').click();
+            screen.textContent = "";
+            if (screen.textContent == "") {
+                newNumber = 0;
+            }
             break;
         case "percent":
             currOperator = "/";
@@ -95,9 +119,12 @@ container.addEventListener('click', (event) => {
         case "equal":
             console.log("equal");
             console.log("oldnumber: " + oldNumber + " newNumber" + newNumber);
-            oldNumber = operator(Number(oldNumber), currOperator, Number(newNumber));
-            screen.textContent = oldNumber;
-            newNumber = oldNumber;
+            if (currOperator != "") {
+                oldNumber = operator(Number(oldNumber), currOperator, Number(newNumber));
+                screen.textContent = oldNumber;
+                newNumber = oldNumber;   
+            }
+            
             console.log(screen.textContent);
             break;
     }
