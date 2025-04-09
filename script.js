@@ -36,17 +36,18 @@ function operator(a, operator, b) {
 let newNumber = 0;
 let currOperator = "";
 let oldNumber = "";
-
+let plusminus = true;
 container.addEventListener('click', (event) => {
     let target = event.target;
     switch (target.id) {
         case "digit":
             screen.textContent += target.textContent;
             newNumber = Number(screen.textContent);
+            console.log("digit");
             break;
         case "clear":
             console.log("cleared");
-            screen.textContent = "0";
+            screen.textContent = "";
             if (screen.textContent == "") {
                 newNumber = 0;
             }
@@ -59,11 +60,45 @@ container.addEventListener('click', (event) => {
         case "add":
             oldNumber = newNumber;
             currOperator = "+";
-            console.log("oldnumber" + oldNumber);
+            console.log("oldnumber: " + oldNumber);
             document.getElementById('clear').click();
+            break;
+        case "subtract":
+            oldNumber = newNumber;
+            currOperator = "-";
+            console.log("oldnumber: " + oldNumber);
+            document.getElementById('clear').click();
+            break;
+        case "multiply":
+            oldNumber = newNumber;
+            currOperator = "x";
+            console.log("oldnumber: " + oldNumber);
+            document.getElementById('clear').click();
+            break;
+        case "divide":
+            oldNumber = newNumber;
+            currOperator = "/";
+            console.log("oldnumber: " + oldNumber);
+            document.getElementById('clear').click();
+            break;
+        case "percent":
+            currOperator = "/";
+            newNumber = operator(Number(newNumber), currOperator, 10);
+            console.log("oldnumber: " + newNumber);
+            screen.textContent = newNumber;
+            oldNumber = newNumber;
+            break;
+        case "plusminus":
+            newNumber = -1 * newNumber;
+            screen.textContent = newNumber;
+            break;
         case "equal":
             console.log("equal");
-            screen.textContent = operator(Number(oldNumber), currOperator, Number(newNumber));
+            console.log("oldnumber: " + oldNumber + " newNumber" + newNumber);
+            oldNumber = operator(Number(oldNumber), currOperator, Number(newNumber));
+            screen.textContent = oldNumber;
+            newNumber = oldNumber;
+            console.log(screen.textContent);
+            break;
     }
-    screen.textContent = newNumber;
 })
